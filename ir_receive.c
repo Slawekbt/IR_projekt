@@ -166,7 +166,7 @@ long int short_decoder(unsigned char *decoded_signal, unsigned char *decoded_sho
 		
 		for(i=0; i<8 ; i ++)        // 8-bit start bit '1' NEED's A CHANGE
 		{
-			decoded_short_[i] = 1; // 8-bit one's start BIT representative 
+			decoded_short_[i] = 1; // 8-bit one's inverted ADDRESS representative 
 		}
 		
 		for(i=8; i<24 ; i++)         // 16 bits of message
