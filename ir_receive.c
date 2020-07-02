@@ -1,5 +1,9 @@
 #include "ir_receive.h"
+#include "ir_display.h"
 #include <avr/io.h>
+
+#define  F_CPU 16000000UL
+#include <util/delay.h>
 
 /* First level decoder
 
@@ -69,7 +73,7 @@ unsigned char start_bit_1_decoder(unsigned char *raw_signal)
 }
 
 
-unsigned char protocol_check(unsigned char *decoded_signal)
+unsigned char protocol_check(unsigned char *decoded_signal) // decoded ( or even raw) signal must be delivered
 {
 	unsigned char identifier = 0;
 	unsigned char start_bit_0 = start_bit_0_decoder(decoded_signal);
@@ -166,7 +170,7 @@ long int short_decoder(unsigned char *decoded_signal, unsigned char *decoded_sho
 		
 		for(i=0; i<8 ; i ++)        // 8-bit start bit '1' NEED's A CHANGE
 		{
-			decoded_short_[i] = 1; // 8-bit one's inverted ADDRESS representative 
+			decoded_short_[i] = 1;  // 8-bit one's inverted ADDRESS representative 
 		}
 		
 		for(i=8; i<24 ; i++)         // 16 bits of message
@@ -210,7 +214,7 @@ long int short_decoder(unsigned char *decoded_signal, unsigned char *decoded_sho
 		
 		
 	}
-	return short_value_; // return 24 or 32 binary value of decoded signal, problems here
+	return short_value_; // return 24 or 32 binary value of decoded signal, BUGs here at the beginning of codes 00 or FF, overflow ?
 }
 
 unsigned char parity_check(long int decoded_short_) // decoded_short_nec or decoded_short_samsung must be provided, same procedure for both
